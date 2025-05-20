@@ -88,13 +88,6 @@ python genrap.py
 
 ---
 
-## 🛡️ Auteur
-
-👤 Dr. Sabri ALLANI
-🛡️ Expert en cybersécurité & intelligence artificielle
-
----
-
 ## 📜 Licence
 
 MIT License
