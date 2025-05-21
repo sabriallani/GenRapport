@@ -1,4 +1,4 @@
-# 🔐 VAPT Automated Report Generator
+# 🔐 Automated Report Generator
 
 Ce script permet de générer automatiquement des rapports de tests de vulnérabilité (VAPT) à partir de fichiers Excel contenant les résultats de tests. Il utilise GPT-4 pour analyser les logs et déduire automatiquement s’il s’agit d’une **vulnérabilité** ou d’un **comportement résilient**.
 
