@@ -16,6 +16,22 @@ pip install openai pandas tqdm python-docx
 
 ---
 
+## ⚙️ Configuration OpenAI
+
+Dans le fichier `genrap.py`, modifiez la ligne suivante pour y insérer votre clé API OpenAI :
+
+```python
+API_KEY = "sk-..."
+```
+
+Vous pouvez également modifier le modèle utilisé (par défaut `gpt-4-turbo`) par un modèle moins coûteux ou plus rapide si besoin :
+
+```python
+model="gpt-3.5-turbo"  # ou "gpt-4" selon votre abonnement
+```
+
+---
+
 ## 📁 Structure attendue
 
 ```
