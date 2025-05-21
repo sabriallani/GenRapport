@@ -82,12 +82,6 @@ python genrap.py
 
 ---
 
-## 🧠 Exemple de rendu
-
-> 📷 Tu peux ajouter ici une capture écran d’un rapport Word généré
-
----
-
 ## 📜 Licence
 
 MIT License
