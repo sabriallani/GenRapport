@@ -1,87 +1,98 @@
-# 📄 RapportGen Agent
+# 🔐 VAPT Automated Report Generator
 
-Un outil Python simple et extensible pour générer automatiquement des rapports de vulnérabilités professionnels à partir de fichiers Excel.
-Il utilise l’intelligence de GPT-4 pour transformer des findings bruts en rapports structurés (.docx) prêts à être partagés.
-
----
-
-## ✨ Fonctionnalités
-
-✅ Génère automatiquement un rapport `.docx` bien structuré pour chaque fichier Excel
-
-✅ Mise en forme avec titres, sous-sections en gras, couleurs pour les sections
-
-✅ Intégration OpenAI GPT-4 (ou GPT-3.5) pour enrichir le contenu
-
-✅ Affichage d’une barre de progression avec `tqdm`
-
-✅ Aucun framework web requis — s’exécute en script CLI simple
+Ce script permet de générer automatiquement des rapports de tests de vulnérabilité (VAPT) à partir de fichiers Excel contenant les résultats de tests. Il utilise GPT-4 pour analyser les logs et déduire automatiquement s’il s’agit d’une **vulnérabilité** ou d’un **comportement résilient**.
 
 ---
 
-## 🗂️ Structure du projet
+## 📦 Prérequis
 
-```
-rapportgen-agent/
-├── genrap.py               # Script principal
-├── data/                   # Fichiers Excel à analyser
-├── generated_reports/      # Rapports Word générés
-├── README.md               # Ce fichier
-```
-
----
-
-## 📦 Dépendances
+* Python 3.8+
+* Une clé API valide OpenAI (`gpt-4` activé)
+* Installer les dépendances :
 
 ```bash
-pip install pandas openpyxl python-docx openai tqdm
+pip install openai pandas tqdm python-docx
 ```
 
 ---
 
-## ⚙️ Configuration de l’API OpenAI
+## 📁 Structure attendue
 
-**Ne jamais publier votre clé dans le code.**
-
-Crée un fichier `.env` :
-
-```env
-OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+```
+.
+├── data/
+│   ├── test_cases_logs_1.xlsx
+│   └── ...
+├── generated_reports/
+│   └── vuln_report.docx/json/xlsx/md
+├── genrap.py
+└── README.md
 ```
 
-Et modifie dans `genrap.py` :
+Chaque fichier `.xlsx` doit contenir les colonnes suivantes :
 
-```python
-from dotenv import load_dotenv
-load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-```
+* `Interface`
+* `Test Case Description`
+* `Test Details`
+* `Logs`
 
 ---
 
-## ▶️ Utilisation
-
-1. Place tes fichiers `.xlsx` dans le dossier `data/`
-2. Lance :
+## 🚀 Utilisation
 
 ```bash
-python genrap.py
+python genrap.py <format>
 ```
 
-3. Les fichiers `.docx` seront disponibles dans `generated_reports/`
+**Formats supportés** :
+
+| Format  | Description                                            |
+| ------- | ------------------------------------------------------ |
+| `docx`  | Rapport Word lisible par humains                       |
+| `excel` | Fichier `.xlsx` tabulaire (interne/automatisation)     |
+| `json`  | Fichier `.json` pour intégration dans SIEM/API         |
+| `md`    | Rapport Markdown (idéal pour GitHub Pages, Docs, etc.) |
 
 ---
 
-## 📋 Exemple de sections générées
+### Exemple
 
-* Executive Summary
-* Affected Components
-* Risk Rating
-* Vulnerabilities Description (avec sous-sections en gras)
-* Recommendations
+```bash
+python genrap.py docx
+python genrap.py json
+python genrap.py md
+```
 
 ---
 
-## 📜 Licence
+## 🧠 Fonctionnement
 
-MIT License
+1. Le script lit tous les fichiers `.xlsx` du dossier `data/`
+2. Il envoie chaque log à GPT-4 pour classification : `VULNERABILITY` ou `SUCCESS`
+3. Si une vulnérabilité est détectée, GPT-4 génère un résumé détaillé : CVSS, CWE, description, risques, etc.
+4. Tous les résultats sont rassemblés dans un fichier de sortie du format demandé.
+
+---
+
+## 📌 Exemple de sortie Markdown
+
+```markdown
+## 3.1 Test GPS Spoofing
+- **Result**: VULNERABILITY
+- **CVSS**: 7.5
+- **Risk level**: High
+- **CWE/CVE reference**: CWE-287
+...
+
+---
+
+## 3.2 Test Signal Jamming
+- **Result**: SUCCESS
+- **Message**: The system is resilient. No vulnerability found.
+```
+
+---
+
+## 🔗 Auteur
+
+Projet automatisé pour les experts cybersécurité / pentesters.
