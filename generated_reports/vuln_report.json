@@ -1,0 +1,89 @@
+[
+  {
+    "Interface": "Radiocomm (GPS Navigation) ",
+    "Test Name": "Test GPS spoofing resistance",
+    "Result": "VULNERABILITY",
+    "**CVSS": "7.9**",
+    "**Risk Level": "High**",
+    "**Description": "**",
+    "**Risks": "**",
+    "If this vulnerability is exploited, it might lead to various potential risks": "",
+    "**Complexity": "Medium**",
+    "**Priority": "High**",
+    "**CWE/CVE reference": "**",
+    "**Reference URLs": "**"
+  },
+  {
+    "Interface": "Radiocomm (GPS Navigation) ",
+    "Test Name": "Test GPS signal jamming resilience",
+    "Result": "SUCCESS",
+    "Message": "The system is resilient. No vulnerability found."
+  },
+  {
+    "Interface": "Radiocomm (Data Link - Dual Frequency)",
+    "Test Name": "Test man-in-the-middle (MITM) attack on 2.4 GHz / 5 GHz",
+    "Result": "VULNERABILITY",
+    "Vulnerability Summary": "",
+    "- **CVSS": "** 7.1 (Ref: https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:H/A:H)",
+    "- **Risk Level": "** High",
+    "- **Description": "** The Radiocomm data link dual frequency interface exhibits susceptibility to man-in-the-middle (MITM) attacks. An attacker is able to set up a rogue access point and mimic the drone's 2.4 GHz or 5 GHz network. This vulnerability allows for Advanced Resolution Protocol (ARP) spoofing, leading to the potential interception and manipulation of sensitive video/control data despite the AES encryption process initially in place.",
+    "- **Risks": "** This vulnerability allows for hostile actors to infiltrate the system, intercept and potentially manipulate the drone's control or video data. The attacker could gain control over the drone, resulting in serious security and operational risks.",
+    "- **Complexity": "** Low. To exploit this vulnerability, an attacker would only need the standard equipment generally used for wifi attacks and the proficient understanding of the drone's network.",
+    "- **Priority": "** High. Due to the potential severe impact on the system's integrity, this vulnerability must be addressed urgently.",
+    "- **CWE/CVE reference": "** CWE-300: Channel Accessible By Non-Endpoint ('Man-in-the-Middle') (Ref: https://cwe.mitre.org/data/definitions/300.html)",
+    "- **Reference URLs": "**",
+    "- https": "//www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:L/I:H/A:H"
+  },
+  {
+    "Interface": "Radiocomm (LongRange - 2.3 GHz / 2.4 GHz)",
+    "Test Name": "Test LongRange band authentication security",
+    "Result": "SUCCESS",
+    "Message": "The system is resilient. No vulnerability found."
+  },
+  {
+    "Interface": "Radiocomm (Data Link - Full Digital)",
+    "Test Name": "Test data integrity under high packet loss",
+    "Result": "VULNERABILITY",
+    "Vulnerability Summary": "",
+    "- CVSS": "7.1",
+    "- Risk Level": "High",
+    "- Description": "The drone system is found to be highly vulnerable to flood attacks leading to high packet loss. Malformed packets, when flooded onto the data link, disrupt video feed's integrity and interfere with the control signals. This results in the drone becoming unresponsive or unstable.",
+    "- Risks": "The risks involve severe disruption in the video feed and control signals, leading to complete drone unresponsiveness or instability. Critical information may be lost or misinterpreted due to these interruptions. There's also a potential risk of malicious command injection under this vulnerability.",
+    "- Complexity": "Medium. Requires understanding of the drone's communication system and tools to create and send malformed packets.",
+    "- Priority": "High. The identified vulnerability severely affects the drone's communication system's reliability, making it a high priority issue to be addressed.",
+    "- CWE/CVE reference": "Although there may be no direct CWE/CVE references available, the vulnerability seems to be related to CWE-400 - Uncontrolled Resource Consumption ('Resource Exhaustion') and a drone-specific CVE-2015-1007 that discussed high packet loss issues.",
+    "- Reference URLs": "",
+    "- CWE-400": "https://cwe.mitre.org/data/definitions/400.html",
+    "- CVE-2015-1007": "https://nvd.nist.gov/vuln/detail/CVE-2015-1007"
+  },
+  {
+    "Interface": "WiFi (2.4 GHz / 5 GHz)",
+    "Test Name": "Test WiFi authentication security",
+    "Result": "SUCCESS",
+    "Message": "The system is resilient. No vulnerability found."
+  },
+  {
+    "Interface": "WiFi (2.4 GHz / 5 GHz)",
+    "Test Name": "Test WiFi MITM attack",
+    "Result": "VULNERABILITY",
+    "Vulnerability Summary": "",
+    "- CVSS": "7.5 (High)",
+    "- Risk level": "High",
+    "- Description": "The wireless network observed is vulnerable to Man in the Middle (MITM) attacks through the creation of a rogue access point utilizing a Pineapple device. The attack took advantage of a security shortcoming within the network's HTTPS that allowed it to be downgraded, culminating in successful unauthorized access to the drone's network. Additionally, AES encryption proved ineffective as a preventative measure against data exposure.",
+    "- Risks": "The risks associated with these vulnerabilities include unauthorized network access, potential theft or compromise of sensitive data, disruption of network and device functionality, and a breach of confidentiality, integrity, and availability principles.",
+    "- Complexity": "Medium. The complexity of exploiting this vulnerability is relatively medium, requiring knowledge of MITM attacks, the ability to create a rogue WiFi AP using a Pineapple WiFi device and use tools like sslstrip effectively. However, the successful handshake capture and successful WiFi password crack using a wordlist under 10M attempts shows the defender's security measures were not sufficient.",
+    "- Priority": "High. Given the successful breach and the potential damage to privacy and security, the remediation of such vulnerabilities should be considered high priority.",
+    "- CWE/CVE reference": "CWE-200: Information Exposure, CWE-310: Cryptographic Issues, CVE-2020-26139.",
+    "- Reference URLs": "",
+    "1. https": "//cwe.mitre.org/data/definitions/200.html",
+    "2. https": "//cwe.mitre.org/data/definitions/310.html",
+    "3. https": "//cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-26139",
+    "Recommendations": "Implement an extensive and complex password policy, incorporate multi-factor authentication, update the WiFi encryption to WPA3, and enforce HSTS to prevent HTTPS downgrading. Regularly conduct penetration tests to identify vulnerabilities and rectify them to enhance the network's overall security."
+  },
+  {
+    "Interface": "WiFi (2.4 GHz / 5 GHz)",
+    "Test Name": "Test WiFi deauthentication attack",
+    "Result": "SUCCESS",
+    "Message": "The system is resilient. No vulnerability found."
+  }
+]
