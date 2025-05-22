@@ -1,5 +1,7 @@
 # 🔐 Automated VAPT Report Generator
 
+> **VAPT** : *Vulnerability Assessment and Penetration Testing* – c'est une méthode d'audit de sécurité permettant d'identifier, analyser et rapporter les failles de sécurité potentielles dans une application, un système ou un réseau.
+
 Ce projet permet de générer automatiquement des rapports de tests de vulnérabilité (VAPT) à partir de fichiers Excel contenant des logs d’exécution de cas de test. L’analyse est effectuée automatiquement par un LLM (local ou distant) pour déterminer s’il s’agit d’un **succès (résilience)** ou d’une **vulnérabilité**, et générer un rapport formaté.
 
 ---
@@ -50,6 +52,19 @@ Utilise un modèle local optimisé type Mistral via `localgen.py`.
 models/
 └── openhermes-2.5-mistral-7b.Q5_K_M.gguf
 ```
+
+#### 📦 Dépendances (mode local)
+
+```bash
+pip install llama-cpp-python pandas tqdm
+```
+
+#### ⚙️ Configuration minimale recommandée
+
+* CPU 6+ cores ou GPU compatible (CUDA/Metal selon version `llama-cpp`)
+* RAM ≥ 8 Go
+* Plus le modèle est grand (7B, 13B), plus l’analyse sera précise mais lente.
+* Modèle recommandé : `openhermes-2.5-mistral-7b.Q5_K_M.gguf`
 
 Lancer la génération :
 
