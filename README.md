@@ -1,14 +1,14 @@
-# 🔐 Automated Report Generator
+# 🔐 Automated VAPT Report Generator
 
-Ce script permet de générer automatiquement des rapports de tests de vulnérabilité (VAPT) à partir de fichiers Excel contenant les résultats de tests. Il utilise GPT-4 pour analyser les logs et déduire automatiquement s’il s’agit d’une **vulnérabilité** ou d’un **comportement résilient**.
+Ce projet permet de générer automatiquement des rapports de tests de vulnérabilité (VAPT) à partir de fichiers Excel contenant des logs d’exécution de cas de test. L’analyse est effectuée automatiquement par un LLM (local ou distant) pour déterminer s’il s’agit d’un **succès (résilience)** ou d’une **vulnérabilité**, et générer un rapport formaté.
 
 ---
 
 ## 📦 Prérequis
 
 * Python 3.8+
-* Une clé API valide OpenAI (`gpt-4` activé)
-* Installer les dépendances :
+* Une clé API OpenAI (si vous utilisez le mode distant)
+* Dépendances :
 
 ```bash
 pip install openai pandas tqdm python-docx
@@ -16,18 +16,45 @@ pip install openai pandas tqdm python-docx
 
 ---
 
-## ⚙️ Configuration OpenAI
+## ⚙️ Modes de fonctionnement
 
-Dans le fichier `genrap.py`, modifiez la ligne suivante pour y insérer votre clé API OpenAI :
+### 1. 🔗 Mode distant (via OpenAI)
+
+Utilise le fichier `genrap.py` avec un appel à l’API OpenAI (gpt-4 ou gpt-3.5).
+👉 **Configurer la clé API dans `genrap.py`** :
 
 ```python
-API_KEY = "sk-..."
+client = OpenAI(api_key="sk-votre_cle_openai")
 ```
 
-Vous pouvez également modifier le modèle utilisé (par défaut `gpt-4-turbo`) par un modèle moins coûteux ou plus rapide si besoin :
+Changer le modèle si nécessaire :
 
 ```python
-model="gpt-3.5-turbo"  # ou "gpt-4" selon votre abonnement
+model="gpt-3.5-turbo"  # ou "gpt-4" si disponible
+```
+
+Lancer la génération :
+
+```bash
+python genrap.py docx
+```
+
+---
+
+### 2. 🧠 Mode local (sans Internet)
+
+Utilise un modèle local optimisé type Mistral via `localgen.py`.
+⚠️ Requiert `llama-cpp-python` et un modèle `.gguf` tel que :
+
+```
+models/
+└── openhermes-2.5-mistral-7b.Q5_K_M.gguf
+```
+
+Lancer la génération :
+
+```bash
+python localgen.py md
 ```
 
 ---
@@ -37,15 +64,18 @@ model="gpt-3.5-turbo"  # ou "gpt-4" selon votre abonnement
 ```
 .
 ├── data/
-│   ├── test_cases_logs_1.xlsx
-│   └── ...
+│   ├── test_cases_logs_failure 1.xlsx
+│   ├── test_cases_logs_success 1.xlsx
+├── models/
+│   └── openhermes-2.5-mistral-7b.Q5_K_M.gguf
 ├── generated_reports/
 │   └── vuln_report.docx/json/xlsx/md
-├── genrap.py
+├── genrap.py          # Script OpenAI distant
+├── localgen.py        # Script modèle local
 └── README.md
 ```
 
-Chaque fichier `.xlsx` doit contenir les colonnes suivantes :
+Chaque fichier Excel doit contenir les colonnes suivantes :
 
 * `Interface`
 * `Test Case Description`
@@ -54,39 +84,21 @@ Chaque fichier `.xlsx` doit contenir les colonnes suivantes :
 
 ---
 
-## 🚀 Utilisation
+## 🚀 Utilisation des formats
 
 ```bash
 python genrap.py <format>
+python localgen.py <format>
 ```
 
 **Formats supportés** :
 
-| Format  | Description                                            |
-| ------- | ------------------------------------------------------ |
-| `docx`  | Rapport Word lisible par humains                       |
-| `excel` | Fichier `.xlsx` tabulaire (interne/automatisation)     |
-| `json`  | Fichier `.json` pour intégration dans SIEM/API         |
-| `md`    | Rapport Markdown (idéal pour GitHub Pages, Docs, etc.) |
-
----
-
-### Exemple
-
-```bash
-python genrap.py docx
-python genrap.py json
-python genrap.py md
-```
-
----
-
-## 🧠 Fonctionnement
-
-1. Le script lit tous les fichiers `.xlsx` du dossier `data/`
-2. Il envoie chaque log à GPT-4 pour classification : `VULNERABILITY` ou `SUCCESS`
-3. Si une vulnérabilité est détectée, GPT-4 génère un résumé détaillé : CVSS, CWE, description, risques, etc.
-4. Tous les résultats sont rassemblés dans un fichier de sortie du format demandé.
+| Format  | Description                                      |
+| ------- | ------------------------------------------------ |
+| `docx`  | Rapport Word lisible                             |
+| `excel` | Format `.xlsx` pour intégration automatisée      |
+| `json`  | Format `.json` pour SIEM ou API                  |
+| `md`    | Rapport Markdown pour documentation GitHub, etc. |
 
 ---
 
@@ -100,8 +112,6 @@ python genrap.py md
 - **CWE/CVE reference**: CWE-287
 ...
 
----
-
 ## 3.2 Test Signal Jamming
 - **Result**: SUCCESS
 - **Message**: The system is resilient. No vulnerability found.
@@ -109,6 +119,44 @@ python genrap.py md
 
 ---
 
-## 🔗 Auteur
+## 📌 Exemple de sortie JSON
 
-Projet automatisé pour les experts cybersécurité / pentesters.
+```json
+[
+  {
+    "test_id": "3.1",
+    "name": "Test GPS Spoofing",
+    "result": "VULNERABILITY",
+    "cvss": 7.5,
+    "risk_level": "High",
+    "cwe": "CWE-287",
+    "description": "This vulnerability allows GPS spoofing...",
+    "recommendation": "Use encrypted GPS receivers."
+  },
+  {
+    "test_id": "3.2",
+    "name": "Test Signal Jamming",
+    "result": "SUCCESS",
+    "message": "The system is resilient. No vulnerability found."
+  }
+]
+```
+
+---
+
+## 🧠 Fonctionnement
+
+1. Lecture automatique de tous les fichiers `.xlsx` dans `data/`
+2. Analyse sémantique des logs (succès ou vulnérabilité)
+3. En cas de vulnérabilité :
+
+   * Génération des éléments : CVSS, CWE, description, risques, complexité, etc.
+4. Génération du fichier final dans `generated_reports/`
+
+---
+
+## 🧑‍💼 Auteur
+
+Automatisation proposée pour les experts cybersécurité et les équipes de test VAPT.
+
+---
