@@ -63,8 +63,14 @@ pip install llama-cpp-python pandas tqdm
 
 #### ⚙️ Configuration minimale recommandée
 
+> 💡 Pour ce projet, nous utilisons le modèle `openhermes-2.5-mistral-7b.Q5_K_M.gguf` comme compromis entre performance et précision.
+>
+> 🔬 Les modèles plus grands (ex. `DeepSeek Coder 33B`, `LLaMA2 70B`, `Mixtral`, etc.) offrent une bien meilleure qualité d’analyse sémantique, mais nécessitent une infrastructure GPU robuste (VRAM ≥ 24 Go).
+>
+> 🏆 **DeepSeek R1 (Coder ou Chat)** est l’un des meilleurs choix pour un usage local haute précision, mais nécessite des ressources GPU avancées et n'est pas optimal pour CPU-only.
+
 * CPU 6+ cores ou GPU compatible (CUDA/Metal selon version `llama-cpp`)
-* RAM ≥ 16 Go
+* RAM ≥ 16 Go (recommandé pour traitement fluide de fichiers volumineux)
 * Plus le modèle est grand (7B, 13B), plus l’analyse sera précise mais lente.
 * Modèle recommandé : `openhermes-2.5-mistral-7b.Q5_K_M.gguf`
 
