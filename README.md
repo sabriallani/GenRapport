@@ -53,6 +53,8 @@ models/
 └── openhermes-2.5-mistral-7b.Q5_K_M.gguf
 ```
 
+🔗 Télécharger le modèle depuis Hugging Face : [TheBloke/OpenHermes-2.5-Mistral-7B-GGUF](https://huggingface.co/TheBloke/OpenHermes-2.5-Mistral-7B-GGUF)
+
 #### 📦 Dépendances (mode local)
 
 ```bash
