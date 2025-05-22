@@ -64,7 +64,7 @@ pip install llama-cpp-python pandas tqdm
 #### ⚙️ Configuration minimale recommandée
 
 * CPU 6+ cores ou GPU compatible (CUDA/Metal selon version `llama-cpp`)
-* RAM ≥ 8 Go
+* RAM ≥ 16 Go
 * Plus le modèle est grand (7B, 13B), plus l’analyse sera précise mais lente.
 * Modèle recommandé : `openhermes-2.5-mistral-7b.Q5_K_M.gguf`
 
