@@ -180,6 +180,8 @@ python localgen.py <format>
 
 ## 🧑‍💼 Auteur
 
-Automatisation proposée pour les experts cybersécurité et les équipes de test VAPT.
+Ce projet d’automatisation a été conçu pour les experts en cybersécurité et les équipes de test VAPT.
 
----
+**Auteur principal** :  
+Dr. Sabri ALLANI — Expert Architecte en IA Générative & Cybersécurité, Chercheur en sécurité des systèmes intelligents.
+
